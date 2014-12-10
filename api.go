@@ -48,8 +48,13 @@ func API_Home(c *gin.Context) {
 	c.Data(200, "text/html; charset=utf-8", data)
 }
 
+// Eslablish connection to a server
+// POST /connect
 func API_Connect(c *gin.Context) {
 	url := c.Request.FormValue("url")
+
+	// Set test mode to true if "test" parameter is present
+	test := c.Request.FormValue("test") != ""
 
 	if url == "" {
 		c.JSON(400, Error{"Url parameter is required"})
@@ -62,6 +67,10 @@ func API_Connect(c *gin.Context) {
 		return
 	}
 
+	if test {
+		defer client.db.Close()
+	}
+
 	err = client.Test()
 	if err != nil {
 		c.JSON(400, Error{err.Error()})
@@ -69,8 +78,13 @@ func API_Connect(c *gin.Context) {
 	}
 
 	info, err := client.Info()
+	if err != nil {
+		c.JSON(400, Error{err.Error()})
+		return
+	}
 
-	if err == nil {
+	if !test {
+		// Close existing connection if we have any
 		if dbClient != nil {
 			dbClient.db.Close()
 		}
