@@ -405,6 +405,10 @@ $(document).ready(function() {
   $("#table_query").on("click",      function() { showQueryPanel();      });
   $("#table_connection").on("click", function() { showConnectionPanel(); });
 
+  $('#Search1').keyup(function(){
+    console.log(this.value);
+  });
+
   $("#run").on("click", function() {
     runQuery();
   });

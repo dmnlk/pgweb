@@ -88,6 +88,18 @@
   background: #31373d;
 }
 
+#sidebar .SearchBox {
+  position: absolute;
+  right: 0;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  overflow: auto;
+  background: #FFFFFF;
+}
+
+
+
 #sidebar div.tables-list {
   position: absolute;
   right: 0;
